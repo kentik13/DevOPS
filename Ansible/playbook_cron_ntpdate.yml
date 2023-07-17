@@ -1,0 +1,21 @@
+
+---
+- name: Cron ntpdate script
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Copy sh file
+    copy: src=cronupdate.sh dest=/home/anton mode=0555
+    
+  - name: Run sh file
+    command: sh /home/anton/cronupdate.sh
+      #    register: results   ##dubug part
+
+      #  - debug:
+      #      var: results
+
+  - name: Delete sh file
+    ansible.builtin.file:
+      state: absent
+      path: /home/anton/cronupdate.sh
