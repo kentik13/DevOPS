@@ -1,0 +1,35 @@
+---
+- name: default soft
+  hosts: ansible
+  become: yes
+
+  tasks:
+  - name: install centos all
+    yum: pkg={{ item }} state=latest
+    with_items:
+      - ncdu
+      - net-tools
+      - tree
+      - links
+      - nmap
+      - htop
+      - vim
+      - tmux
+      - mc
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+  - name: install
+    apt: pkg={{ item }} state=latest
+    with_items:
+      - ncdu
+      - net-tools
+      - links
+      - tree
+      - iptables-persistent
+      - nmap
+      - htop
+      - vim
+      - tmux
+      - mc
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
