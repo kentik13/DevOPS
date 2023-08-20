@@ -1,0 +1,8 @@
+#simple compose nginx
+version: "3"
+services:
+  website:
+    image: nginx
+    ports:
+      - "1234:80"
+    restart: always
