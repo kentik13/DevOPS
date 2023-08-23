@@ -1,0 +1,25 @@
+#-------------------------------------------------------------
+# Manifest File to create Simple Deployment with Labels
+#
+# Copyleft (c) by Anton Dmytrenko 2023
+#-------------------------------------------------------------
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: my-web-deployment
+  labels:
+    app : my-k8s-application
+spec:
+  selector:
+    matchLabels:
+      project: ant
+  template:
+    metadata:
+      labels:
+        project: ant
+    spec:
+      containers:
+        - name : ant-web
+          image: kentik13/k8sphp:latest
+          ports:
+            - containerPort: 80
