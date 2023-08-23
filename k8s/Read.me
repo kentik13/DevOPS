@@ -1,0 +1,63 @@
+K8s objects:
+0.container
+1.pods - one or few (same or different)containers (the smallest peace)
+2.deployment - one or few same pod's (for auto scaling, hold minimal active pods inside)
+3.service - give access to pod what should go to deployment 
+4.nodes - server(one node one server) (cluster ip,Nodeport,loadbalacner,externalname)
+5.cluster - one or few nodes inside
+
+===================Commands=================
+PODS:
+kubectl get pods - show all pods
+kubectl run hello --image=nginx:latest --port=80 
+kubectl run hello  --image=kentik13/k8sphp:latest --port=80
+kubectl get nodes - show all nodes
+kubectl delete pods hello - delete hello pod
+kubectl describe pods hello - get info about pod hello
+kubectl exec hello date - run command date on pod hello
+kubectl exec -it hello sh - run shell in interactive mode
+kubectl logs hello - show log hello pod
+kubectl port-forward hello 7777:80 - port 7777 our pc to 80 port
+kubectl apply -f myfile.yaml    Create objects K8s from manifest file myfile.yaml
+kubectl delete -f myfile.yaml   Delete objects K8s from manifest file myfile.yaml
+
+INFO: can be chaned "image: nginx:latest" to other inside yaml file and to apply need to run "kubectl apply -f myfile.yaml" again   
+
+DEPLOYMENT:
+minikube start --cpus=4 --memory=4gb --disk-size=20gb --driver=docker --nodes 2  - minukube with 2 nodes
+kubectl get deployments  - show all Depoyments
+
+kubectl create deployment anton-deployment --image nginx:latest - create Deployment form DockeImage nginx:latest
+
+kubectl describe deployment anton-deployment
+kubectl scale deployment anton-deployment --replicas 4  - Create ReplicaSets
+kubectl get rs - show add ReplicaSets (after creation of replicas)
+kubectl autoscale deployment anton --min=2 --max=4 --cpu-percent=80 - create AutoScaling for Deployment anton
+kubectl get hpa - Show all HPA - HorizontalAutoScalers
+kubectl rollout history deployment/anton-deployment - show update history
+kubectl rollout status deployment/anton-deployment - show rollout update status
+kubectl set image deployment/anton-deployment k8sphp=kentik13/k8sphp:version1 --record   - chenge Deployment anton-deployment Image (k8sphp) on new (kentik13/k8sphp:version1)
+kubectl rollout undo deployment/anton-deployment  -  back on previous version
+kubectl rollout undo deployment/anton-deployment --to-revision=2  - back on 2 version(what we set)
+kubectl rollout restart deployment/anton-deployment  - update to fresh version
+kubectl delete deployments denis-deployment    - Delete Deployment anton-deployment 
+kubectl port-forward my-web-deployment-replicas-774cbd7c7c-ftpjp 7777:80 - check replica port is works
+kubectl apply -f .\deployment-2-replicas.yaml - make deployment from file
+
+
+SERVICES:
+ClusterIP - get ip inside k8s cluster
+NodePort - open port on all k8s worker nodes
+ExternalName - DNS CNAME Record
+LoadBalancer - only in AWS,GCP,Azure
+
+kubectl expose deployment anton-deployment --type=ClusterIP --port 80  - Create Service with type ClusterIP for Deployment
+kubectl get services  -  Show all Services
+kubectl get svc -  Show all Services
+kubectl delete services  anton-deployment -  delete Service anton-deployment
+
+kubectl expose deployment anton-deployment --type=NodePort --port 80  -  create Service with type NodePort for Deployment
+
+kubectl expose deployment anton-deployment --type=LoadBalancer --port 80  -  create Service with LoadBalancer  for Deployment
+
+kubectl describe nodes | grep ExternalIP - find External IP on all Worker nodes
