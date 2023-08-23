@@ -67,3 +67,6 @@ spec:
       port      : 80  # Port on Load Balancer
       targetPort: 80  # Port on Pod
   type: LoadBalancer
+  #for windows if use minukube
+  externalIPs:
+  - 192.168.122.222
