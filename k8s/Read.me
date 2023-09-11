@@ -61,3 +61,35 @@ kubectl expose deployment anton-deployment --type=NodePort --port 80  -  create 
 kubectl expose deployment anton-deployment --type=LoadBalancer --port 80  -  create Service with LoadBalancer  for Deployment
 
 kubectl describe nodes | grep ExternalIP - find External IP on all Worker nodes
+
+Scale Deployments:
+kubectl scale deployment main    --replicas 2   Create ReplicaSets
+kubectl scale deployment web1    --replicas 2   Create ReplicaSets
+kubectl scale deployment web2    --replicas 2   Create ReplicaSets
+kubectl expose deployment main   --port 80   # --type=ClusterIP  DEFAULT   - Create Service, by default type=ClusterIP
+kubectl expose deployment web1   --port 80  - by default type=ClusterIP
+kubectl expose deployment web2   --port 80   - by default type=ClusterIP
+kubectl expose deployment tomcat --port 8080    -  by default type=ClusterIP
+kubectl get services -o wide   - Check data of Services
+kubectl apply -f ingress-hosts.yaml -Create Ingress Rules from file
+kubectl apply -f ingress-paths.yaml -Create Ingress Rules from file
+kubectl get ingress             -Show all Ingress Rules
+kubectl describe ingress    -Show all Ingress Rules detailed
+kubectl delete ns projectcontour    -remove Ingress Controller Contour
+
+
+HELM CHARTS:
+
+helm version        -show version Helm
+helm list           -show all deployed Helm Releases
+helm search hub     -show Helm Chart from global list Hub
+helm search repo    -show Helm Chart from added Repos
+helm install app1 Chart-Anton/  -deploy Helm Chart app1 from directory Chart-Anton
+helm upgrade app1 Chart-Anton/ --set container.image=kentik13/k8sphp:version1    -update deployment app1
+helm create MyChart  -Create default Helm Chart in directory MyChart
+helm package Denis-Chart/   -Pack Helm Chart in tgz achive
+helm install app2 App-HelmChart-0.1.0.tgz   - Deploy Helm Chart app2 from archive
+helm delete app1    -Delete Deployment Helm Chart app1
+helm uninstall app1 -Delete Deployment Helm Chart app1
+helm repo add bitnami https://charts.bitnami.com/bitnami    -add Helm Chart Repo from bitnami
+helm install my_website bitnami/apache -f my_values.yaml    -deploy Helm Chart bitnami/apache with custom values
