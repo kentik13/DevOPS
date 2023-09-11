@@ -1,0 +1,21 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: my-web1-deployment
+  labels:
+    app : my-k8s1-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: ant1
+  template:
+    metadata:
+      labels:
+        project: ant1   # Service will look for those PODS Labels!!!
+    spec:
+      containers:
+        - name : ant1-web
+          image: kentik13/k8sphp:version1
+          ports:
+            - containerPort: 80
