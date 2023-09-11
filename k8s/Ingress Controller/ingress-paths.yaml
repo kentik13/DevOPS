@@ -1,0 +1,29 @@
+#---------------------------------------------------------------------
+# Manifest File to create Ingess Rules for Host Paths
+#
+# Copyleft (c) by Anton Dmytrenko 2023
+#---------------------------------------------------------------------
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-paths
+
+spec:
+  rules:
+  - host: www.keniktest.com.ua
+    http:
+      paths:
+      - path: "/page1"
+        backend:
+          serviceName: webx
+          servicePort: 80
+
+      - path: "/page2"
+        backend:
+          serviceName: webx
+          servicePort: 80
+
+      - path: "/page3"
+        backend:
+          serviceName: webx
+          servicePort: 80
