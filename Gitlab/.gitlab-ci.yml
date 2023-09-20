@@ -1,0 +1,37 @@
+stages:
+  - deploy dev
+  - deploy master
+
+deploy_dev_merge_commit:
+  stage: deploy dev
+  tags:
+    - eapi-dev
+  script:
+    - cd /var/www/myproject/
+    - pwd
+    - sudo su devextapi -c "git pull"
+    - sudo supervisorctl reread
+    - sudo supervisorctl update
+    - sudo supervisorctl restart all
+    - sudo supervisorctl
+    - sudo su devextapi -c "make dev-build"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev"
+
+
+deploy_master_merge_commit:
+  stage: deploy master
+  tags:
+    - eapi-master
+  when: manual
+  script:
+    - cd /var/www/myproject/
+    - pwd
+    - sudo su extapi -c "git pull"
+    - sudo supervisorctl reread
+    - sudo supervisorctl update
+    - sudo supervisorctl restart all
+    - sudo supervisorctl
+    - sudo su extapi -c "make prod-build"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
