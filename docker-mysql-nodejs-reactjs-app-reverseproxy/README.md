@@ -1,6 +1,6 @@
 # Docker MySQL Node.js React.js App
 
-![App]([https://github.com/madhurajayashanka/docker-mysql-nodejs-reactjs-app/raw/main/Thumbnail.png](https://github.com/kentik13/DevOPS/blob/main/docker-mysql-nodejs-reactjs-app-reverseproxy/Thumbnail.png))
+![App](https://raw.githubusercontent.com/kentik13/DevOPS/main/docker-mysql-nodejs-reactjs-app-reverseproxy/Thumbnail.png)
 
 "Docker MySQL Node.js React.js Reverse Proxy App" is a complete example repository demonstrating the power of Docker and Docker Compose. This project emphasizes ease of use and effectiveness by showcasing how Docker containers can be used to deploy a full-stack application.
 
@@ -27,7 +27,7 @@ Before running the project, make sure you have the following installed:
 2. Navigate to the project directory:
 
    ```bash
-   cd project-directory
+   cd project-directory && cd docker-mysql-nodejs-reactjs-app-reverseproxy
    ```
 
 3. Download the `script.sql` file and place it in the project directory.
@@ -59,4 +59,4 @@ Before running the project, make sure you have the following installed:
 
 ## Usage
 
-This example serves as a beginner-friendly resource to learn about full-stack Docker containerization in a practical application. It provides a simplified implementation of a full-stack application using React.js, Node.js, and MySQL, and Reverse Proxy all orchestrated with Docker Compose.
+This example serves as a beginner-friendly resource to learn about full-stack Docker containerization in a practical application. It provides a simplified implementation of a full-stack application using React.js, Node.js, MySQL, and Reverse Proxy all orchestrated with Docker Compose.
