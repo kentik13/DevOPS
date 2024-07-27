@@ -7,6 +7,8 @@ services:
       - MYSQL_DATABASE=appdb # Specifies the name of the database
       - MYSQL_PASSWORD=pass123 # Sets the password for the MySQL user
       - MYSQL_ROOT_PASSWORD=pass123 # Sets the root password for MySQL
+    volumes:
+      - ./sql-scripts:/docker-entrypoint-initdb.d # Mounts the SQL scripts directory    
     networks:
       - sameNetworkAsMysql # Connects the service to the 'sameNetworkAsMysql' network
     ports:
