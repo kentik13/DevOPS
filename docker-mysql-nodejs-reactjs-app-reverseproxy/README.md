@@ -30,26 +30,13 @@ Before running the project, make sure you have the following installed:
    cd project-directory && cd docker-mysql-nodejs-reactjs-app-reverseproxy
    ```
 
-3. Download the `script.sql` file and place it in the project directory.
-
-4. Run the following command to build and start the Docker containers:
+3. Run the following command to build and start the Docker containers:
 
    ```bash
    docker-compose up --build
    ```
 
-5. Login to MySQL using the specified port, username, and password:
-
-   - Host: `localhost`
-   - Port: `3307`
-   - Username: `root`
-   - Password: `pass123`
-
-   You can use a MySQL client such as [MySQL Workbench](https://www.mysql.com/products/workbench/) or [phpMyAdmin](https://www.phpmyadmin.net/) to log in to the MySQL server.
-
-6. Initialize the MySQL database by executing the `script.sql` file.
-
-7. Access the application by opening the following URL in your web browser:
+4. Access the application by opening the following URL in your web browser:
 
    ```
    http://localhost:80
