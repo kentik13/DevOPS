@@ -1,0 +1,13 @@
+---
+- name: Retrieve OS Release Information
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Run cat /etc/os-release | grep PRETTY_NAME
+      shell: cat /etc/os-release | grep PRETTY_NAME
+      register: os_release_info
+
+    - name: Display the OS release information
+      debug:
+        msg: "{{ os_release_info.stdout }}"
