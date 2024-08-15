@@ -1,0 +1,9 @@
+- name: Remove the user 'sergey' from Linux systems
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure the user 'sergey' is absent
+      ansible.builtin.user:
+        name: sergey
+        state: absent
+        remove: yes
