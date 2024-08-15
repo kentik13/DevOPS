@@ -1,0 +1,17 @@
+---
+- name: Show users on Linux
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get list of users excluding specific ones
+      #      shell: cat /etc/passwd | awk -F: '{ print $1 }' | egrep -v "cwagent|influxdb|telegraf|ansible"
+      shell: >
+        cat /etc/passwd | awk -F: '{ print $1 }' |
+        egrep -v "cwagent|influxdb|telegraf|ansible|postfix|dnsmasq|lxd|admin|ubuntu|chromy|fwupd|landscape|pollinate|sshd|tcpdump|uuidd|tss|apt|syslog|systemd|messagebus|nobody|chrony|ec2|irc|list|backup|www-data|proxy|uucp|news|mail|lp|man|games|sys|sync|deamon|root|daemon|anton|php|sql|exim|zabbix|kpatrekashvili|omalova|ezykov|serhiid|mabramov|shulgin|nurken|levon|node_exporter|mongodb|gitlab|redis|jenkins|gnats|worker-|PHP|snmp|extapi|api2"
+      register: passwd_output
+      ignore_errors: yes
+
+    - name: Display filtered users
+      debug:
+        #var: passwd_output.stdout
+        msg: "{{ passwd_output.stdout }}"
