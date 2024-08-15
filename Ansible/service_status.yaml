@@ -1,0 +1,15 @@
+---
+- name: Check status of velociraptor_client.service
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get the status of velociraptor_client.service
+      ansible.builtin.systemd:
+        name: velociraptor_client.service
+        state: started
+      register: service_status
+
+    - name: Display simplified status of velociraptor_client.service
+      ansible.builtin.debug:
+        msg: >
+          The velociraptor_client.service is {{ 'running' if service_status.status['ActiveState'] == 'active' else 'not running' }}
