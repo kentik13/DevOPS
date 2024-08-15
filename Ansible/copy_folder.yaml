@@ -1,0 +1,18 @@
+---
+- name: Copy folder VC to /home/ansible
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure /home/ansible directory exists
+      file:
+        path: /home/ansible
+        state: directory
+        mode: '0755'
+
+    - name: Copy folder VC to /home/ansible
+      copy:
+        src: /ansible/playbooks/anton
+        dest: /home/ansible/VC/
+        owner: ansible
+        group: ansible
+        mode: '0755'
