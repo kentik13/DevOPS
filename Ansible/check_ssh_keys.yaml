@@ -1,0 +1,23 @@
+---
+- name: Check and display .ssh/authorized_keys files
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get home directories from /etc/passwd
+      ansible.builtin.command: awk -F':' '{print $6}' /etc/passwd
+      register: home_dirs
+
+    - name: Display .ssh/authorized_keys contents if it exists
+      ansible.builtin.shell: |
+        if [ -f "{{ item }}/.ssh/authorized_keys" ]; then
+          echo "File: {{ item }}/.ssh/authorized_keys"
+          cat "{{ item }}/.ssh/authorized_keys"
+        fi
+      with_items: "{{ home_dirs.stdout_lines }}"
+      register: authorized_keys_contents
+
+    - name: Show authorized_keys contents
+      ansible.builtin.debug:
+        msg: "{{ item.stdout }}"
+      with_items: "{{ authorized_keys_contents.results }}"
+      when: item.stdout != ""
