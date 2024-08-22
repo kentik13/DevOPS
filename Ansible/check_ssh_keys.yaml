@@ -7,17 +7,27 @@
       ansible.builtin.command: awk -F':' '{print $6}' /etc/passwd
       register: home_dirs
 
+    - name: Create or clear the output file
+      ansible.builtin.file:
+        path: /tmp/authorized_keys_contents.txt
+        state: touch
+
     - name: Display .ssh/authorized_keys contents if it exists
       ansible.builtin.shell: |
         if [ -f "{{ item }}/.ssh/authorized_keys" ]; then
-          echo "File: {{ item }}/.ssh/authorized_keys"
-          cat "{{ item }}/.ssh/authorized_keys"
+          echo "File: {{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents.txt
+          cat "{{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents.txt
+          echo "" >> /tmp/authorized_keys_contents.txt  # Add a blank line for readability
         fi
       with_items: "{{ home_dirs.stdout_lines }}"
       register: authorized_keys_contents
+      changed_when: false
 
-    - name: Show authorized_keys contents
+    - name: Display the content of the output file
+      ansible.builtin.slurp:
+        src: /tmp/authorized_keys_contents.txt
+      register: slurped_file
+
+    - name: Show the content of the output file
       ansible.builtin.debug:
-        msg: "{{ item.stdout }}"
-      with_items: "{{ authorized_keys_contents.results }}"
-      when: item.stdout != ""
+        msg: "{{ slurped_file['content'] | b64decode }}"
