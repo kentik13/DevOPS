@@ -1,4 +1,3 @@
----
 - name: Check and display .ssh/authorized_keys files
   hosts: all
   become: yes
@@ -9,25 +8,27 @@
 
     - name: Create or clear the output file
       ansible.builtin.file:
-        path: /tmp/authorized_keys_contents.txt
+        path: "/tmp/authorized_keys_contents_{{ inventory_hostname }}.txt"
         state: touch
 
     - name: Display .ssh/authorized_keys contents if it exists
       ansible.builtin.shell: |
         if [ -f "{{ item }}/.ssh/authorized_keys" ]; then
-          echo "File: {{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents.txt
-          cat "{{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents.txt
-          echo "" >> /tmp/authorized_keys_contents.txt  # Add a blank line for readability
+          echo "File: {{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents_{{ inventory_hostname }}.txt
+          cat "{{ item }}/.ssh/authorized_keys" >> /tmp/authorized_keys_contents_{{ inventory_hostname }}.txt
+          echo "" >> /tmp/authorized_keys_contents_{{ inventory_hostname }}.txt  # Add a blank line for readability
         fi
       with_items: "{{ home_dirs.stdout_lines }}"
       register: authorized_keys_contents
       changed_when: false
 
-    - name: Display the content of the output file
-      ansible.builtin.slurp:
-        src: /tmp/authorized_keys_contents.txt
-      register: slurped_file
+    - name: Fetch the result file to the Ansible control host
+      ansible.builtin.fetch:
+        src: "/tmp/authorized_keys_contents_{{ inventory_hostname }}.txt"
+        dest: "./fetched_files/{{ inventory_hostname }}_authorized_keys_contents.txt"
+        flat: yes
 
-    - name: Show the content of the output file
-      ansible.builtin.debug:
-        msg: "{{ slurped_file['content'] | b64decode }}"
+    - name: Remove the result file from the remote host
+      ansible.builtin.file:
+        path: "/tmp/authorized_keys_contents_{{ inventory_hostname }}.txt"
+        state: absent
