@@ -14,8 +14,8 @@ kubectl run hello  --image=kentik13/k8sphp:latest --port=80
 kubectl get nodes - show all nodes
 kubectl delete pods hello - delete hello pod
 kubectl describe pods hello - get info about pod hello
-kubectl exec hello date - run command date on pod hello
-kubectl exec -it hello sh - run shell in interactive mode
+kubectl exec hello -- date - run command date on pod hello
+kubectl exec -it hello -- sh - run shell in interactive mode
 kubectl logs hello - show log hello pod
 kubectl port-forward hello 7777:80 - port 7777 our pc to 80 port
 kubectl apply -f myfile.yaml    Create objects K8s from manifest file myfile.yaml
